@@ -6,6 +6,9 @@ from accounts.models import User
 from accounts.serializer import UserSerializer
 
 
-class UserView(generics.CreateAPIView):
+class UserRegistrationAPI(generics.CreateAPIView):
+    """API Endpoint for creating a new user"""
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
+
+
