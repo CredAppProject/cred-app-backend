@@ -16,4 +16,10 @@ class UserSerializer(serializers.ModelSerializer):
     user.job = validated_data['job']
     user.save()
     return user
-  
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = User
+    fields = ['id','email','name', 'phone', 'profile_picture', 'company', 'job','date_joined']
+    read_only_fields  = ('id','date_joined',)
