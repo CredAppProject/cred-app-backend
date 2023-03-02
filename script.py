@@ -15,7 +15,13 @@ def generateEnv():
     #generate secret key automatically
     key = get_random_secret_key()
     fp.write('SECRET_KEY = "'+key+'"')
-    print(".env generated with SECRET_KEY")
+    fp.write('\nDEBUG = ')
+    fp.write('\nNAME = ')
+    fp.write('\nUSER = ')
+    fp.write('\nPASSWORD = ')
+    fp.write('\nHOST = ')
+    fp.write('\nPORT = ')
+    print(".env generated at "+os.getcwd())
     fp.close()
 
 if __name__=="__main__":
