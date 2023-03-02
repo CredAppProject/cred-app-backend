@@ -20,5 +20,6 @@ class UserProfileAPI(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
 
 class UserList(generics.ListAPIView):
+    """API Endpoint for listing all the users - development purpose."""
     serializer_class = UserSerializer
     queryset = User.objects.all()
