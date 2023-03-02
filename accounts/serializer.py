@@ -23,3 +23,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
     model = User
     fields = ['id','email','name', 'phone', 'profile_picture', 'company', 'job','date_joined']
     read_only_fields  = ('id','date_joined',)
+
+
+class UserPasswordSerializer(serializers.Serializer):
+  old_password = serializers.CharField(required=True)
+  new_password = serializers.CharField(required=True)
+
+  class Meta:
+    fields = ['old_password','new_password']
