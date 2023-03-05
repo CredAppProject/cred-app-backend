@@ -14,7 +14,7 @@ This will generate an __.env__ variable in the root directory with django secret
 SECRET_KEY = 'auto generated django secret key'
 DEBUG = True|False 
 NAME = "database_name" 
-USER = "username"
+DB_USER = "username"
 PASSWORD = "password" 
 HOST = "db_host"
 PORT = "db_port"

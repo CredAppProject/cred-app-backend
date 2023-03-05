@@ -17,7 +17,7 @@ def generateEnv():
     fp.write('SECRET_KEY = "'+key+'"')
     fp.write('\nDEBUG = ')
     fp.write('\nNAME = ')
-    fp.write('\nUSER = ')
+    fp.write('\nDB_USER = ')
     fp.write('\nPASSWORD = ')
     fp.write('\nHOST = ')
     fp.write('\nPORT = ')
