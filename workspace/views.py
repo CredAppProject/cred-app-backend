@@ -5,7 +5,7 @@ from workspace.models import Workspace
 from workspace.serializer import WorkspaceSerializer
 
 # Create your views here.
-class CustomUserCreation(generics.ListCreateAPIView):
+class WorkspaceListCreateView(generics.ListCreateAPIView):
     """API endpoint to create and list all the workspaces"""
     queryset = Workspace.objects.all()
     permission_classes = (IsAuthenticated)
