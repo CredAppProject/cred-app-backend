@@ -33,3 +33,12 @@ class WorkspaceListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
       serializer.save(owner=self.request.user)
+
+
+class WorkspaceGetUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    """API Endpoint for fetching,updating and deleting invidual models."""
+    queryset = Workspace.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = WorkspaceSerializer
+    lookup_url_kwarg = 'id'
+    lookup_field = 'workspace_id'
