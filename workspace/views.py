@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from workspace.models import Workspace,SecretFile, SecretKey
-from workspace.serializer import WorkspaceSerializer,SecretKeySerializer
+from workspace.serializer import WorkspaceSerializer,SecretKeySerializer, SecretFileSerializer
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -60,8 +60,12 @@ class SecretKeyListCreateView(generics.ListCreateAPIView):
         return Response(data)
         
     def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        workspace = Workspace.objects.get(workspace_id=kwargs['workspace_id'])
+        data = request.data.copy()
+        data['workspace'] = workspace.workspace_id
+        serializer = self.get_serializer(data=data)
         if serializer.is_valid():
+            # serializer.validated_data['workspace'] = workspace
             self.perform_create(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
@@ -76,5 +80,42 @@ class SecretKeyGetUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = SecretKey.objects.all()
     permission_classes = (IsAuthenticated,)
     serializer_class = SecretKeySerializer
+    lookup_url_kwarg = 'secret_id'
+    lookup_field = 'id'
+
+
+class SecretFileListCreateView(generics.ListCreateAPIView):
+    """API endpoint to create and list all the workspaces"""
+    queryset = SecretFile.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = SecretFileSerializer
+
+    def list(self, request, *args, **kwargs):
+        worskspace = Workspace.objects.get(workspace_id=kwargs['workspace_id'])
+        queryset = SecretFile.objects.filter(workspace=worskspace)
+        serializer = self.get_serializer(queryset, many=True)
+        data = serializer.data
+        return Response(data)
+        
+    def post(self, request, *args, **kwargs):
+        workspace_id = kwargs.get('workspace_id')
+        request.data['workspace'] = workspace_id
+
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            self.perform_create(serializer, kwargs)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    def perform_create(self, serializer, kwargs):
+      serializer.save(created_by=self.request.user)
+
+
+class SecretFileGetUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    """API Endpoint for fetching,updating and deleting invidual models."""
+    queryset = SecretFile.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = SecretFileSerializer
     lookup_url_kwarg = 'secret_id'
     lookup_field = 'id'
