@@ -19,9 +19,15 @@ class SecretKey(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User,on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.secret_key
+
 class SecretFile(models.Model):
     workspace = models.ForeignKey(Workspace,on_delete=models.CASCADE)
     secret_key = models.CharField(max_length=1000)
     secret_file = models.FileField(upload_to='secret_files')
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.secret_key
